@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Dashboard Approach</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables with muted color palette */
+        :root {
+            --mustard: #eabd5d;
+            --cream: #f7efe6;
+            --blush: #e8c2bc;
+            --sage: #84a59d;
+            --coral: #ec8e8e;
+            
+            --python-color: var(--sage);
+            --ml-color: var(--blush);
+            --data-color: var(--mustard);
+            --viz-color: var(--coral);
+            
+            --dark: #333333;
+            --light: #f8f9fa;
+            --text: #333333;
+            --background: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: var(--dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--sage);
+            bottom: -10px;
+            left: 0;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Skills Dashboard */
+        .skills-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .dashboard-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+        }
+        
+        .python-header {
+            background-color: var(--python-color);
+        }
+        
+        .ml-header {
+            background-color: var(--ml-color);
+        }
+        
+        .data-header {
+            background-color: var(--data-color);
+        }
+        
+        .viz-header {
+            background-color: var(--viz-color);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Python & Libraries Card */
+        .libraries-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .library-tag {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            background-color: rgba(132, 165, 157, 0.1);
+            border: 1px solid rgba(132, 165, 157, 0.3);
+            color: var(--python-color);
+        }
+        
+        .code-snippet {
+            background-color: #f7f7f7;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-left: 3px solid var(--python-color);
+            overflow: auto;
+            max-height: 120px;
+        }
+        
+        .code-comment {
+            color: #888;
+        }
+        
+        /* Machine Learning Card */
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .algorithm-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .algorithm-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            background-color: rgba(232, 194, 188, 0.2);
+            color: var(--ml-color);
+        }
+        
+        .algorithm-chart {
+            height: 120px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: auto;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .chart-column {
+            flex: 1;
+            background-color: rgba(232, 194, 188, 0.6);
+            border-radius: 2px 2px 0 0;
+            position: relative;
+        }
+        
+        .chart-column::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        
+        .chart-column:nth-child(1) { height: 60%; }
+        .chart-column:nth-child(2) { height: 85%; }
+        .chart-column:nth-child(3) { height: 40%; }
+        .chart-column:nth-child(4) { height: 75%; }
+        
+        /* Data Analysis Card */
+        .analysis-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--data-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .flow-connector {
+            width: 2px;
+            height: 20px;
+            background-color: rgba(234, 189, 93, 0.3);
+            margin-left: 11px;
+        }
+        
+        .data-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: auto;
+        }
+        
+        .metric-item {
+            background-color: rgba(234, 189, 93, 0.1);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--data-color);
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* Visualization Card */
+        .viz-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .viz-type {
+            text-align: center;
+        }
+        
+        .viz-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: var(--viz-color);
+        }
+        
+        .viz-label {
+            font-size: 0.8rem;
+        }
+        
+        .viz-preview {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            height: 120px;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Mini pie chart */
+        .pie-chart {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 20px;
+            left: 30px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--viz-color) 0% 30%, 
+                var(--python-color) 30% 55%, 
+                var(--ml-color) 55% 70%, 
+                var(--data-color) 70% 100%
+            );
+        }
+        
+        .pie-center {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Mini bar chart */
+        .mini-bars {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            width: 100px;
+            height: 60px;
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        
+        .mini-bar {
+            flex: 1;
+            background-color: var(--viz-color);
+            opacity: 0.8;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .mini-bar:nth-child(1) { height: 30%; }
+        .mini-bar:nth-child(2) { height: 60%; }
+        .mini-bar:nth-child(3) { height: 45%; }
+        .mini-bar:nth-child(4) { height: 75%; }
+        .mini-bar:nth-child(5) { height: 50%; }
+        
+        /* Line connector */
+        .connector-line {
+            position: absolute;
+            height: 1px;
+            background-color: rgba(236, 142, 142, 0.3);
+            width: 60px;
+            top: 60px;
+            left: 110px;
+        }
+        
+        /* Card footer */
+        .card-footer {
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .projects-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .projects-count i {
+            color: #888;
+        }
+        
+        .related-tools {
+            color: #666;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .skills-dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .algorithm-grid,
+            .viz-types {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .data-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Technical Toolkit</h2>
+        <p>My areas of expertise span data science and analytics disciplines. Each card represents a key component of my technical toolkit, showcasing the tools, techniques, and applications I use in my work.</p>
+        
+        <div class="skills-dashboard">
+            <!-- Python & Libraries Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="header-icon python-header">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="card-title">Python & Libraries</h3>
+                </div>
+                <div class="card-body">
+                    <div class="libraries-container">
+                        <span class="library-tag">pandas</span>
+                        <span class="library-tag">NumPy</span>
+                        <span class="library-tag">scikit-learn</span>
+                        <span class="library-tag">TensorFlow</span>
+                        <span class="library-tag">Matplotlib</span>
+                        <span class="library-tag">Seaborn</span>
+                        <span class="library-tag">NetworkX</span>
+                        <span class="library-tag">SciPy</span>
+                        <span class="library-tag">NLTK</span>
+                    </div>
+                    
+                    <div class="code-snippet">
+                        <span class="code-comment"># Data processing example</span><br>
+                        import pandas as pd<br>
+                        import numpy as np<br>
+                        from sklearn.cluster import KMeans<br><br>
+                        
+                        <span class="code-comment"># Load and process data</span><br>
+                        df = pd.read_csv('democracy_data.csv')<br>
+                        X = df.drop('country', axis=1)
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="projects-count">
+                        <i class="fas fa-code-branch"></i>
+                        <span>3 Projects</span>
+                    </div>
+                    <div class="related-tools">Data Processing, Analysis</div>
+                </div>
+            </div>
+            
+            <!-- Machine Learning Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="header-icon ml-header">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="card-title">Machine Learning & AI</h3>
+                </div>
+                <div class="card-body">
+                    <div class="algorithm-grid">
+                        <div class="algorithm-item">
+                            <div class="algorithm-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <span>Clustering</span>
+                        </div>
+                        <div class="algorithm-item">
+                            <div class="algorithm-icon">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <span>Classification</span>
+                        </div>
+                        <div class="algorithm-item">
+                            <div class="algorithm-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span>Regression</span>
+                        </div>
+                        <div class="algorithm-item">
+                            <div class="algorithm-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <span>Neural Networks</span>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-chart">
+                        <div class="chart-column" data-label="Clustering"></div>
+                        <div class="chart-column" data-label="NLP"></div>
+                        <div class="chart-column" data-label="CNNs"></div>
+                        <div class="chart-column" data-label="Regression"></div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="projects-count">
+                        <i class="fas fa-code-branch"></i>
+                        <span>2 Projects</span>
+                    </div>
+                    <div class="related-tools">Predictive Modeling, NLP</div>
+                </div>
+            </div>
+            
+            <!-- Data Analysis Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="header-icon data-header">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Data Analysis & Processing</h3>
+                </div>
+                <div class="card-body">
+                    <div class="analysis-flow">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <div>Data Collection & Preparation</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <div>Exploratory Data Analysis</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <div>Feature Engineering</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <div>Statistical Modeling</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="step-number">5</div>
+                            <div>Insights & Recommendations</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value">200+</div>
+                            <div class="metric-label">Datasets Analyzed</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">10+</div>
+                            <div class="metric-label">Analysis Techniques</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">5+</div>
+                            <div class="metric-label">Years Experience</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">3</div>
+                            <div class="metric-label">Featured Projects</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="projects-count">
+                        <i class="fas fa-code-branch"></i>
+                        <span>3 Projects</span>
+                    </div>
+                    <div class="related-tools">Statistical Analysis, ETL</div>
+                </div>
+            </div>
+            
+            <!-- Data Visualization Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="header-icon viz-header">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="card-title">Data Visualization</h3>
+                </div>
+                <div class="card-body">
+                    <div class="viz-types">
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="viz-label">Charts & Graphs</div>
+                        </div>
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div class="viz-label">Network Graphs</div>
+                        </div>
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-globe-americas"></i>
+                            </div>
+                            <div class="viz-label">Geospatial Maps</div>
+                        </div>
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-table"></i>
+                            </div>
+                            <div class="viz-label">Dashboards</div>
+                        </div>
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-stream"></i>
+                            </div>
+                            <div class="viz-label">Flow Diagrams</div>
+                        </div>
+                        <div class="viz-type">
+                            <div class="viz-icon">
+                                <i class="fas fa-th"></i>
+                            </div>
+                            <div class="viz-label">Heatmaps</div>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-preview">
+                        <div class="pie-chart">
+                            <div class="pie-center"></div>
+                        </div>
+                        <div class="connector-line"></div>
+                        <div class="mini-bars">
+                            <div class="mini-bar"></div>
+                            <div class="mini-bar"></div>
+                            <div class="mini-bar"></div>
+                            <div class="mini-bar"></div>
+                            <div class="mini-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="projects-count">
+                        <i class="fas fa-code-branch"></i>
+                        <span>2 Projects</span>
+                    </div>
+                    <div class="related-tools">Matplotlib, Plotly, NetworkX</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
