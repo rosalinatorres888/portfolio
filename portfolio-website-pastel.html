@@ -1,13 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rosalina Torres - Data Analytics Engineer specializing in machine learning, network analysis, and data visualization">
+    <meta name="keywords" content="data analytics, machine learning, data visualization, network analysis, portfolio">
+    <meta name="author" content="Rosalina Torres">
     <title>Rosalina Torres | Data Analytics Engineer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="rosalina.png" as="image">
     <style>
-        /* Variables with new color palette */
+        /* Variables with color palette */
         :root {
             --pink: #f588b0;
             --magenta: #cd6dc3;
@@ -126,6 +130,7 @@
         img {
             max-width: 100%;
             border-radius: 5px;
+            height: auto; /* Maintain aspect ratio */
         }
 
         /* Header */
@@ -918,7 +923,7 @@
                     <li><a href="#resume">Resume</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <div class="menu-toggle">
+                <div class="menu-toggle" aria-label="Toggle navigation menu">
                     <i class="fas fa-bars"></i>
                 </div>
             </nav>
@@ -934,9 +939,9 @@
                     <p>Transforming complex data into actionable insights through machine learning and analytics. Graduate student at Northeastern University with 13+ years of enterprise technology experience.</p>
                     <a href="#projects" class="btn">View My Work</a>
                     <div class="social-links">
-                        <a href="https://linkedin.com/in/rosalina2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/rosalinatorres888" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="mailto:rosalina7torres@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com/in/rosalina2" target="_blank" aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/rosalinatorres888" target="_blank" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+                        <a href="mailto:rosalina7torres@gmail.com" aria-label="Email Me"><i class="fas fa-envelope"></i></a>
                     </div>
                     <div class="tech-stack">
                         <div class="tech-badge"><i class="fab fa-python"></i> Python</div>
@@ -946,7 +951,7 @@
                     </div>
                 </div>
                 <div class="hero-image animate animate-delay-1">
-                    <img src="https://api.placeholder.com/400/320" alt="Rosalina Torres">
+                    <img src="rosalina.png" alt="Rosalina Torres" loading="eager">
                 </div>
             </div>
         </div>
@@ -957,7 +962,7 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-image animate">
-                    <img src="rosalina.png" alt="Rosalina Torres">
+                    <img src="rosalina.png" alt="Rosalina Torres - About Me" loading="lazy">
                 </div>
                 <div class="about-text animate animate-delay-1">
                     <h2>About Me</h2>
@@ -1023,7 +1028,7 @@
                 <!-- Project 1 -->
                 <div class="project-card" data-category="ml">
                     <div class="project-image">
-                        <img src="https://api.placeholder.com/400/320" alt="Clustering Democracy">
+                        <img src="https://api.placeholder.com/400/320" alt="Clustering Democracy Project" loading="lazy">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Clustering Democracy</h3>
@@ -1042,7 +1047,7 @@
                 <!-- Project 2 -->
                 <div class="project-card" data-category="network">
                     <div class="project-image">
-                        <img src="https://api.placeholder.com/400/320" alt="Network Word Frequency Analysis">
+                        <img src="https://api.placeholder.com/400/320" alt="Network Word Frequency Analysis Project" loading="lazy">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Network Word Frequency Analysis</h3>
@@ -1061,7 +1066,7 @@
                 <!-- Project 3 -->
                 <div class="project-card" data-category="ml viz">
                     <div class="project-image">
-                        <img src="https://api.placeholder.com/400/320" alt="Human Activity Entropy">
+                        <img src="https://api.placeholder.com/400/320" alt="Human Activity Entropy Project" loading="lazy">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Human Activity Entropy</h3>
@@ -1249,7 +1254,7 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <div class="back-to-top">
+    <div class="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </div>
 
@@ -1370,10 +1375,29 @@
             });
         });
 
-        // Form submission handler
+        // Form submission handler with validation
         const contactForm = document.getElementById('contactForm');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // Basic form validation
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
             // Simulate form submission
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
@@ -1389,7 +1413,7 @@
             }, 1500);
         });
 
-        // Animation on scroll
+        // Animation on scroll - performance optimized
         const animateElements = document.querySelectorAll('.animate');
         const animateOnScroll = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1398,10 +1422,21 @@
                     animateOnScroll.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         animateElements.forEach(element => {
             animateOnScroll.observe(element);
+        });
+        
+        // Prevent layout shifts from lazy-loaded images
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+            lazyImages.forEach(img => {
+                // Add placeholder dimensions if needed
+                if (!img.width && !img.height) {
+                    img.style.aspectRatio = '16/9';
+                }
+            });
         });
     </script>
 </body>
