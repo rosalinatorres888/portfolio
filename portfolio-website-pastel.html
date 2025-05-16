@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,13 +129,15 @@
         }
 
         /* Header */
-        .hero-image img {
-            max-width: 400px;
-            border-radius: 50%;
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
             box-shadow: var(--shadow);
-            border: 5px solid white;
-        }
-
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: var(--transition);
         }
 
         header.scrolled {
@@ -954,7 +957,7 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-image animate">
-                    <img src="images/rosalina.jpg" alt="Rosalina Torres">
+                    <img src="rosalina.png" alt="Rosalina Torres">
                 </div>
                 <div class="about-text animate animate-delay-1">
                     <h2>About Me</h2>
